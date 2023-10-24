@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Koulen&family=Lato&family=Nunito&family=Playfair+Display:ital@1&family=Prata&family=Raleway:ital,wght@1,100&family=Roboto&family=Roboto+Condensed&family=Teko&display=swap');
 
         body {
         font-family: Lato, sans-serif;
@@ -17,10 +18,15 @@
 
         .container {
             background-color: #fff;
-            padding: 20px;
+            padding: 5px 20px 5px 20px;
             border-radius: 5px;
             margin: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            height: 90vh;
+            overflow: auto;
+            border-radius: 35px;
+
         }
 
         h1 {
@@ -29,20 +35,22 @@
 
         textarea, select, input[type="range"], button {
             font-family: Lato;
+            font-weight: 300;
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #cbcdd1;
-            border-radius: 5px;
+            border-radius: 10px;
+            border: unset;
+            background: #f0f1f5;
         }
 
         textarea#inputText, input[type="range"] {
-            padding: unset;
-        }
+            padding: 10px;
+            max-width: 95%;        }
 
         .results {
             display: none;
-            padding: 20px;
+/*            padding: 5px;*/
         }
 
         table {
@@ -53,20 +61,26 @@
             text-align: left;
             padding: 10px;
         }
+        th{display: none}
 
         .results-thumb {
-            max-width: 150px;
+            max-width: 80px;
+            border-radius: 5px;
         }
         .logo-wrap {
             display: flex;
             justify-content: center;
             width: 100%;
-            padding-bottom: 50px;
+            padding-bottom: 20px;
         }
         .logo {
-            width: 250px;
+            width: 220px;
         }
-    
+        .description {
+            font-size: 0.8em;
+            display: block;
+            font-weight: 300;
+        }
 
 
 
@@ -97,6 +111,66 @@
         color: #ffffff;
     }
 
+
+/*********** Baseline, reset styles ***********/
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 25rem;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background-color: #f0f1f5;
+  border-radius: 0.5rem;
+  height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  margin-top: -4px; /* Centers thumb on the track */
+  background-color: #6777fe;
+  border-radius: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+  outline: 3px solid #6777fe;
+  outline-offset: 0.125rem;
+}
+
+/*********** Firefox styles ***********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+  background-color: #f0f1f5;
+  border-radius: 0.5rem;
+  height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+  background-color: #6777fe;
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+input[type="range"]:focus::-moz-range-thumb{
+  outline: 3px solid #6777fe;
+  outline-offset: 0.125rem;
+}
 
     </style>
 </head>
@@ -130,26 +204,22 @@
             <table id="recommendations">
                 <thead>
                     <tr>
-                        <th>Thumbnail</th>
-                        <th>Title</th>
-                        <th>Description</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><img src="" alt="Thumbnail"></td>
                         <td class="title"></td>
-                        <td class="description"></td>
                     </tr>
                     <tr>
                         <td><img src="" alt="Thumbnail"></td>
                         <td class="title"></td>
-                        <td class="description"></td>
                     </tr>
                     <tr>
                         <td><img src="" alt="Thumbnail"></td>
                         <td class="title"></td>
-                        <td class="description"></td>
                     </tr>
                 </tbody>
             </table>
@@ -170,7 +240,7 @@
             // For example, populate the first recommendation
             const thumbnail1 = "https://placehold.co/200x150.png";
             const title1 = "Recommendation 1";
-            const description1 = "Description for Recommendation 1";
+            const description1 = "This is a long description that will be cut off after 50 characters. It's a test for adding an ellipsis if the description is too long.This is a long description that will be cut off after 50 characters. It's a test for adding an ellipsis if the description is too long.";
 
             // Populate the second recommendation
             const thumbnail2 = "https://placehold.co/200x150.png";
@@ -184,18 +254,24 @@
 
 
             results.style.display = "block";
+
+            // Helper function to cut the description and add an ellipsis if necessary
+            function truncateDescription(description) {
+                if (description.length > 55) {
+                    return description.slice(0, 55) + "…";
+                }
+                return description;
+            }
+
             recommendations.rows[1].cells[0].innerHTML = `<img class="results-thumb" src="${thumbnail1}" alt="Thumbnail">`;
-            recommendations.rows[1].cells[1].textContent = title1;
-            recommendations.rows[1].cells[2].textContent = description1;
+            recommendations.rows[1].cells[1].innerHTML = `<strong>${title1}</strong><span class="description">${truncateDescription(description1)}</span>`;
 
             recommendations.rows[2].cells[0].innerHTML = `<img class="results-thumb" src="${thumbnail2}" alt="Thumbnail">`;
-            recommendations.rows[2].cells[1].textContent = title2;
-            recommendations.rows[2].cells[2].textContent = description2;
+            recommendations.rows[2].cells[1].innerHTML = `<strong>${title2}</strong><span class="description">${truncateDescription(description2)}</span>`;
 
             recommendations.rows[3].cells[0].innerHTML = `<img class="results-thumb" src="${thumbnail3}" alt="Thumbnail">`;
-            recommendations.rows[3].cells[1].textContent = title3;
-            recommendations.rows[3].cells[2].textContent = description3;
-        });
+            recommendations.rows[3].cells[1].innerHTML = `<strong>${title3}</strong><span class="description">${truncateDescription(description3)}</span>`;
+    });
     </script>
 </body>
 </html>
