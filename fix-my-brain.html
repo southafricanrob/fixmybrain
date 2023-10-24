@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Koulen&family=Lato&family=Nunito&family=Playfair+Display:ital@1&family=Prata&family=Raleway:ital,wght@1,100&family=Roboto&family=Roboto+Condensed&family=Teko&display=swap');
+
+        body {
+        font-family: Lato, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            min-height: 100vh; /* Ensure the container is centered on the page */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        textarea, select, input[type="range"], button {
+            font-family: Lato;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #cbcdd1;
+            border-radius: 5px;
+        }
+
+        textarea#inputText, input[type="range"] {
+            padding: unset;
+        }
+
+        .results {
+            display: none;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        .results-thumb {
+            max-width: 150px;
+        }
+        .logo-wrap {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding-bottom: 50px;
+        }
+        .logo {
+            width: 250px;
+        }
+    
+
+
+
+    #submitBtn{
+        font-family: Lato;
+        font-weight: 0;
+        font-size: 16px;
+        color: #fff;
+        background: linear-gradient(173deg, #54fcf8 0%, #6c6bff 83%);
+        padding: 10px 30px;
+        border: none;
+        box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+        border-radius: 50px;
+        transition : 1000ms;
+        transform: translateY(0);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    #submitBtn:hover{
+        transition : 1000ms;
+        padding: 10px 50px;
+        transform : translateY(-0px);
+        background: linear-gradient(173deg, #54fcf8 0%, #6c6bff 83%);
+        color: #ffffff;
+    }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-wrap">
+            <img class="logo" src="fmb-logo.png">
+        </div>
+        <textarea rows="12" id="inputText" placeholder=""> Age: 25 
+        Gender: Female
+        Occupation: Corporate employee
+        Location: Zurich 
+        Additional Info: 
+        - Travelling for city breaks once per month
+        - Emotionally influenced by the meetings, she needs to recover after the
+          meetings
+        - Focused on her wellbeing
+        - Eager to learn new things
+        Hobbies: Social Networks, Fashion, Travel</textarea>
+        <label for="timeDropdown">How much time do you have?</label>
+        <select id="timeDropdown">
+            <option value="">Select an option</option>
+            <option value="2">2 minutes</option>
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+        </select>
+        <label for="moodSlider">Mood:</label>
+        <input type="range" id="moodSlider" min="-5" max="5" value="0">
+        <button id="submitBtn">Submit</button>
+        <div class="results">
+            <table id="recommendations">
+                <thead>
+                    <tr>
+                        <th>Thumbnail</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="" alt="Thumbnail"></td>
+                        <td class="title"></td>
+                        <td class="description"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="" alt="Thumbnail"></td>
+                        <td class="title"></td>
+                        <td class="description"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="" alt="Thumbnail"></td>
+                        <td class="title"></td>
+                        <td class="description"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("submitBtn").addEventListener("click", function() {
+            const inputText = document.getElementById("inputText").value;
+            const timeDropdown = document.getElementById("timeDropdown").value;
+            const moodSlider = document.getElementById("moodSlider").value;
+
+            const recommendations = document.getElementById("recommendations");
+            const results = document.querySelector(".results");
+
+            // You can implement your recommendation logic here
+
+            // For example, populate the first recommendation
+            const thumbnail1 = "https://placehold.co/200x150.png";
+            const title1 = "Recommendation 1";
+            const description1 = "Description for Recommendation 1";
+
+            // Populate the second recommendation
+            const thumbnail2 = "https://placehold.co/200x150.png";
+            const title2 = "Recommendation 2";
+            const description2 = "Description for Recommendation 2";
+
+            // Populate the third recommendation
+            const thumbnail3 = "https://placehold.co/200x150.png";
+            const title3 = "Recommendation 3";
+            const description3 = "Description for Recommendation 3";
+
+
+            results.style.display = "block";
+            recommendations.rows[1].cells[0].innerHTML = `<img class="results-thumb" src="${thumbnail1}" alt="Thumbnail">`;
+            recommendations.rows[1].cells[1].textContent = title1;
+            recommendations.rows[1].cells[2].textContent = description1;
+
+            recommendations.rows[2].cells[0].innerHTML = `<img class="results-thumb" src="${thumbnail2}" alt="Thumbnail">`;
+            recommendations.rows[2].cells[1].textContent = title2;
+            recommendations.rows[2].cells[2].textContent = description2;
+
+            recommendations.rows[3].cells[0].innerHTML = `<img class="results-thumb" src="${thumbnail3}" alt="Thumbnail">`;
+            recommendations.rows[3].cells[1].textContent = title3;
+            recommendations.rows[3].cells[2].textContent = description3;
+        });
+    </script>
+</body>
+</html>
